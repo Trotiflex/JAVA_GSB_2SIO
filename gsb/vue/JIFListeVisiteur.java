@@ -18,9 +18,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
- * Fenêtre permettant de lister et rechercher des visiteurs
- * @author Isabelle
- * 17 nov. 2021
+ * Fenêtre interne permettant de lister et rechercher des visiteurs.
+ * Cette classe affiche la liste des visiteurs dans un tableau et permet à l'utilisateur de rechercher un visiteur 
+ * par son matricule. Lorsque le matricule est saisi et validé, la fiche détaillée du visiteur correspondant est affichée.
+ * 
+ * @author Trotiflex
+ * @version 1.0
+ * @since 17 novembre 2021
  */
 public class JIFListeVisiteur extends JInternalFrame implements ActionListener {
 
@@ -35,6 +39,12 @@ public class JIFListeVisiteur extends JInternalFrame implements ActionListener {
     protected JButton JBAfficherFiche;
     protected MenuPrincipal fenetreContainer;
 
+    /**
+     * Constructeur de la fenêtre. Il initialise les données des visiteurs à partir de la base de données et crée
+     * un tableau avec ces données. Il configure également un champ de recherche pour trouver un visiteur par matricule.
+     * 
+     * @param uneFenetreContainer Le conteneur principal de la fenêtre, utilisé pour ouvrir la fiche détaillée d'un visiteur.
+     */
     public JIFListeVisiteur(MenuPrincipal uneFenetreContainer) {
         fenetreContainer = uneFenetreContainer;
 
@@ -85,8 +95,13 @@ public class JIFListeVisiteur extends JInternalFrame implements ActionListener {
         setVisible(true);
     }
 
-
-   
+    /**
+     * Gère l'action de clic sur le bouton "Afficher Fiche Visiteur". Cette méthode permet de rechercher un visiteur
+     * par son matricule saisi dans le champ de texte. Si le visiteur est trouvé, sa fiche détaillée est affichée. 
+     * Sinon, un message d'erreur est affiché.
+     * 
+     * @param arg0 L'événement déclenché par l'action du bouton.
+     */
     @Override
     public void actionPerformed(ActionEvent arg0) {
         Object source = arg0.getSource();
@@ -112,7 +127,4 @@ public class JIFListeVisiteur extends JInternalFrame implements ActionListener {
             }
         }
     }
-
-
-
 }

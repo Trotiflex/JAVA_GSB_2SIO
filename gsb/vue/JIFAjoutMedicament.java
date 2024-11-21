@@ -5,17 +5,31 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Fenêtre interne permettant d'ajouter un médicament dans le système.
+ * L'utilisateur peut saisir différentes informations sur le médicament, telles que le dépôt légal,
+ * le nom commercial, la composition, les effets, les contre-indications, et les informations relatives à la famille.
+ * Un bouton permet d'ajouter le médicament.
+ * 
+ * @author Isabelle
+ * @version 1.0
+ * @since 2024-11-21
+ */
 public class JIFAjoutMedicament extends JInternalFrame {
     private static final long serialVersionUID = 1L;
     private JTextField tfDepotLegal, tfNomCommercial, tfComposition, tfEffets, tfContreIndications, tfCodeFamille, tfLibelleFamille;
     private JButton btnAjouter;
 
+    /**
+     * Constructeur de la fenêtre permettant d'ajouter un médicament.
+     * Initialise la fenêtre avec les champs de saisie et le bouton d'ajout.
+     */
     public JIFAjoutMedicament() {
         setTitle("Ajout d'un Médicament");
         setSize(400, 350);
         
         // Positionner la fenêtre au centre de l'écran
-        setLocation(100,150);  // Centre la fenêtre dans l'écran
+        setLocation(100, 150);  // Centre la fenêtre dans l'écran
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -55,6 +69,12 @@ public class JIFAjoutMedicament extends JInternalFrame {
         // Bouton "Ajouter"
         btnAjouter = new JButton("AJOUTER");
         btnAjouter.addActionListener(new ActionListener() {
+            /**
+             * Méthode exécutée lorsqu'on clique sur le bouton "Ajouter".
+             * Cette méthode est chargée d'ajouter un médicament avec les informations saisies.
+             * 
+             * @param e L'événement de clic sur le bouton.
+             */
             public void actionPerformed(ActionEvent e) {
                 // Logique d'ajout du médicament (à implémenter)
                 JOptionPane.showMessageDialog(null, "Médicament ajouté !");
@@ -63,6 +83,11 @@ public class JIFAjoutMedicament extends JInternalFrame {
         add(btnAjouter, BorderLayout.SOUTH);
     }
 
+    /**
+     * Méthode main pour lancer la fenêtre d'ajout de médicament.
+     * 
+     * @param args Tableau des arguments de la ligne de commande.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JIFAjoutMedicament ajout = new JIFAjoutMedicament();

@@ -5,17 +5,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Classe représentant la fenêtre principale de l'application GSB, avec un menu permettant d'accéder à différentes fonctionnalités.
+ * La fenêtre utilise des menus pour naviguer entre plusieurs options comme la consultation des médecins, la gestion des visiteurs,
+ * des médicaments, et des visites.
+ * 
+ * @author Trotiflex
+ * @version 1.0
+ * @since 18 novembre 2024
+ */
 public class MenuPrincipal extends JFrame implements ActionListener {
 
+    /**
+     * Identifiant de version pour la sérialisation.
+     */
     private static final long serialVersionUID = 2591453837113855452L;
 
-    protected JDesktopPane desktopPane;
-    protected JMenuBar mbar;
-    protected JMenu mMedecins;
-    protected JMenu mMedicaments;
-    protected JMenu mVisiteur;
-    protected JMenu mVisites;
+    protected JDesktopPane desktopPane; // Panneau pour les fenêtres internes
+    protected JMenuBar mbar;            // Barre de menu
+    protected JMenu mMedecins;         // Menu des médecins
+    protected JMenu mMedicaments;      // Menu des médicaments
+    protected JMenu mVisiteur;         // Menu des visiteurs
+    protected JMenu mVisites;          // Menu des visites
 
+    /**
+     * Constructeur de la fenêtre principale de l'application.
+     * Il configure l'interface utilisateur en ajoutant un `JDesktopPane` pour les fenêtres internes
+     * et en créant les menus pour accéder aux différentes fonctionnalités de l'application.
+     */
     public MenuPrincipal() {
         // Configuration de la fenêtre principale
         setTitle("GSB");
@@ -94,6 +111,13 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * Méthode de gestion des événements d'action.
+     * Cette méthode est appelée lorsque l'utilisateur sélectionne un élément du menu.
+     * Elle ouvre la fenêtre correspondante en fonction de l'option choisie.
+     * 
+     * @param evt L'événement d'action, représentant l'élément du menu sélectionné.
+     */
     @Override
     public void actionPerformed(ActionEvent evt) {
         // Vérifie si l'élément cliqué est un JMenuItem
@@ -114,7 +138,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
                     ouvrirFenetre(new JIFAjoutVisiteur());
                     break;
                 case "Afficher Stock Visiteur":
-                    ouvrirFenetre(new JIFStocker());
+                    ouvrirFenetre(new JIFStocker(this));
                     break;
                 case "Médicament par famille":
                     ouvrirFenetre(new JIFMedicamentParFamille());
@@ -137,7 +161,13 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         }
     }
 
-    // Méthode pour ouvrir une fenêtre interne
+    /**
+     * Méthode pour ouvrir une fenêtre interne dans le `JDesktopPane`.
+     * Si une fenêtre du même type est déjà ouverte, elle est sélectionnée.
+     * Sinon, une nouvelle fenêtre est ajoutée au panneau et affichée.
+     * 
+     * @param uneFenetre La fenêtre interne à ouvrir.
+     */
     public void ouvrirFenetre(JInternalFrame uneFenetre) {
         // Vérifie si une fenêtre du même type est déjà ouverte
         for (JInternalFrame frame : desktopPane.getAllFrames()) {
@@ -167,6 +197,12 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Méthode principale pour tester l'affichage de la fenêtre principale.
+     * Elle lance l'application en créant une instance de `MenuPrincipal`.
+     * 
+     * @param args Arguments de ligne de commande (non utilisés ici).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MenuPrincipal());
     }

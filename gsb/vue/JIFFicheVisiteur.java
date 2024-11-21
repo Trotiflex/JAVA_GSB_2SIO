@@ -5,12 +5,33 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Fenêtre interne affichant une fiche détaillée d'un visiteur avec ses informations personnelles et professionnelles.
+ * Cette fenêtre permet de visualiser des informations telles que le matricule, le nom, le prénom, l'adresse,
+ * la date d'entrée dans l'entreprise, le code et le nom de l'unité à laquelle il est affecté.
+ * Les informations sont affichées sous forme de champs non modifiables.
+ * 
+ * @author Trotiflex
+ * @version 1.0
+ * @since 2024-11-21
+ */
 public class JIFFicheVisiteur extends JInternalFrame {
 
     private static final long serialVersionUID = 1L;
     private JTextField txtMatricule, txtNom, txtPrenom, txtAdresse, txtDateEntree, txtCodeUnit, txtNomUnit;
 
-    // Constructeur avec les informations du visiteur
+    /**
+     * Constructeur de la fenêtre qui affiche la fiche d'un visiteur avec les informations passées en paramètres.
+     * Si une valeur est nulle, la chaîne vide est utilisée pour la date d'entrée. La date est formatée au format "yyyy-MM-dd".
+     * 
+     * @param matricule Le matricule du visiteur.
+     * @param nom Le nom du visiteur.
+     * @param prenom Le prénom du visiteur.
+     * @param adresse L'adresse du visiteur.
+     * @param date La date d'entrée du visiteur dans l'entreprise.
+     * @param codeUnit Le code de l'unité à laquelle le visiteur est affecté.
+     * @param nomUnit Le nom de l'unité à laquelle le visiteur est affecté.
+     */
     public JIFFicheVisiteur(String matricule, String nom, String prenom, String adresse, Date date, String codeUnit, String nomUnit) {
         super("Fiche Visiteur", true, true, true, true);
         setSize(500, 500);

@@ -8,12 +8,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Test de la connexion à la base de données
+ * Test de la connexion à la base de données.
+ * Cette classe permet de tester la connexion à la base de données en exécutant une requête SQL simple 
+ * pour vérifier si l'accès à la table LOCALITE fonctionne correctement.
+ * 
  * @author Isabelle
- * 17 nov. 2021
+ * @version 1.0
+ * @since 17 nov. 2021
  */
 public class ConnexionTest {
 
+    /**
+     * Méthode principale pour tester la connexion à la base de données et exécuter une requête.
+     * Cette méthode essaie d'établir une connexion à la base de données, puis d'exécuter une requête SQL
+     * pour récupérer les données de la table LOCALITE.
+     * Les résultats de la requête sont affichés dans la console.
+     * 
+     * @param args Les arguments de la ligne de commande (non utilisés ici).
+     */
     public static void main(String[] args) {
         // Utilisation d'un try-with-resources pour s'assurer que les ressources sont fermées automatiquement
         String query = "SELECT * FROM LOCALITE";

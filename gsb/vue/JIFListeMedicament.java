@@ -11,6 +11,16 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;  // Importer Connection
 import java.util.List;
 
+/**
+ * Fenêtre interne affichant une liste de médicaments récupérée depuis la base de données.
+ * Cette fenêtre permet de visualiser les informations de chaque médicament dans un tableau.
+ * Il est également possible d'ouvrir la fiche détaillée d'un médicament soit en double-cliquant sur une ligne du tableau,
+ * soit en saisissant son code dans un champ de texte et en cliquant sur un bouton.
+ * 
+ * @author Trotiflex
+ * @version 1.0
+ * @since 2024-11-21
+ */
 public class JIFListeMedicament extends JInternalFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -19,6 +29,12 @@ public class JIFListeMedicament extends JInternalFrame implements ActionListener
     private JButton btnFicheDetaillee;
     private List<Medicament> medicaments;
 
+    /**
+     * Constructeur de la fenêtre qui initialise la liste des médicaments à partir de la base de données.
+     * Le tableau affiche les médicaments avec leurs informations telles que le code, le nom, le prix et la famille.
+     * 
+     * @throws Exception Si une erreur de connexion à la base de données se produit.
+     */
     public JIFListeMedicament() {
         super("Liste des Médicaments", true, true, true, true);
         setSize(600, 400);
@@ -85,6 +101,13 @@ public class JIFListeMedicament extends JInternalFrame implements ActionListener
         });
     }
 
+    /**
+     * Gère l'action de clic sur le bouton "Fiche médicament détaillée".
+     * Recherche un médicament en fonction du code saisi et ouvre sa fiche détaillée.
+     * Si aucun médicament n'est trouvé, un message d'erreur est affiché.
+     * 
+     * @param e L'événement déclenché par l'action du bouton.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnFicheDetaillee) {
@@ -99,6 +122,12 @@ public class JIFListeMedicament extends JInternalFrame implements ActionListener
         }
     }
 
+    /**
+     * Ouvre une fiche détaillée pour un médicament spécifique.
+     * Une nouvelle fenêtre `JIFFicheMedicament` est créée et affichée avec les détails du médicament.
+     * 
+     * @param medicament Le médicament dont la fiche détaillée doit être ouverte.
+     */
     private void ouvrirFicheMedicament(Medicament medicament) {
         JIFFicheMedicament fiche = new JIFFicheMedicament(
             medicament.getMedDepotLegal(),
