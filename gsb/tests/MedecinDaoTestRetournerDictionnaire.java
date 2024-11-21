@@ -9,7 +9,6 @@ package gsb.tests;
 import gsb.modele.Medecin;
 import gsb.modele.dao.MedecinDao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

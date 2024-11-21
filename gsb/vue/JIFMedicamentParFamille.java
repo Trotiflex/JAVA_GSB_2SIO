@@ -11,22 +11,41 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.util.List;
 
+/**
+ * Fenêtre interne affichant la liste des médicaments d'une famille donnée. 
+ * L'utilisateur peut entrer un code famille et rechercher les médicaments 
+ * associés à cette famille dans la base de données. Les résultats sont affichés dans un tableau.
+ * 
+ * @author Trotiflex
+ * @version 1.0
+ * @since 18 novembre 2024
+ */
 public class JIFMedicamentParFamille extends JInternalFrame {
 
+    /**
+     * Identifiant de version pour la sérialisation.
+     */
     private static final long serialVersionUID = 1L;
-    private Connection connection;  // Déclaration de la connexion en tant que membre
-    private JTable table;
 
+    private Connection connection;  // Connexion à la base de données
+    private JTable table;  // Tableau pour afficher les résultats des médicaments
+
+    /**
+     * Constructeur de la fenêtre de recherche des médicaments par famille.
+     * Ce constructeur crée l'interface graphique permettant à l'utilisateur de saisir un code famille 
+     * et d'afficher les médicaments associés dans un tableau.
+     */
     public JIFMedicamentParFamille() {
+        // Configuration de la fenêtre
         setTitle("Médicament par famille");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Ferme uniquement cette fenêtre, sans quitter l'application
         setLocation(100, 100);
 
         // Création du panel principal
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // Panel du haut contenant le label et le champ texte pour la famille
+        // Création du panel supérieur pour la saisie du code famille et le bouton de recherche
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -34,77 +53,63 @@ public class JIFMedicamentParFamille extends JInternalFrame {
         JTextField familleField = new JTextField(15);
         JButton rechercherButton = new JButton("Rechercher");
 
+        // Ajout des composants au panel supérieur
         topPanel.add(familleLabel);
         topPanel.add(familleField);
         topPanel.add(rechercherButton);
 
-        // Ajout du panel du haut au panel principal
+        // Ajout du panel supérieur au panel principal
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
-        // Création des colonnes de la table (mise à jour à 8 colonnes)
+        // Définition des colonnes de la table
         String[] columnNames = {
             "Dépot Légal", "Nom commercial", "Composition", "Effets", 
             "Contre indications", "Code Famille", "Libellé Famille", "Prix Échantillon"
         };
 
-        // Données par défaut de la table (vide pour l'instant)
+        // Création du tableau avec des données vides au départ
         Object[][] data = {};
 
-        // Création de la table
+        // Initialisation de la table
         table = new JTable(data, columnNames);
         JScrollPane tableScrollPane = new JScrollPane(table);
 
         // Ajout de la table au panel principal
         mainPanel.add(tableScrollPane, BorderLayout.CENTER);
 
-        // Création du bouton "FERMER" en bas
-        JButton fermerButton = new JButton("FERMER");
-        fermerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Fermer la fenêtre et la connexion à la base de données
-                dispose();
-                fermerConnexion();  // Appel de la méthode pour fermer la connexion
-            }
-        });
-
-        // Ajout du bouton de fermeture au panel principal
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.add(fermerButton);
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
         // Ajout du panel principal à la fenêtre
         add(mainPanel);
 
-        // ActionListener pour le bouton Rechercher
+        // Action à exécuter lors du clic sur le bouton "Rechercher"
         rechercherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Récupérer le nom de la famille depuis le champ de texte
+                // Récupère le code de la famille à rechercher
                 String familleRecherchee = familleField.getText().trim();
 
+                // Vérifie si le champ est vide
                 if (familleRecherchee.isEmpty()) {
                     JOptionPane.showMessageDialog(JIFMedicamentParFamille.this, "Veuillez entrer un code famille.", "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 try {
-                    // Créer la connexion à la base de données manuellement
+                    // Créer la connexion si elle n'existe pas ou si elle est fermée
                     if (connection == null || connection.isClosed()) {
-                        connection = ConnexionMySql.getConnection();  // Connexion manuelle
+                        connection = ConnexionMySql.getConnection();  // Connexion manuelle à la base
                     }
 
-                    // Rechercher les médicaments de la famille dans la base de données
-                    List<Medicament> medicaments = MedicamentDao.rechercherParFamille(connection, familleRecherchee);  // Passage de la connexion et du paramètre famille
+                    // Recherche des médicaments dans la base de données pour la famille donnée
+                    List<Medicament> medicaments = MedicamentDao.rechercherParFamille(connection, familleRecherchee);  // Recherche dans la base de données
 
-                    // Si aucun médicament n'est trouvé, afficher un message
+                    // Si aucun médicament n'est trouvé, affiche un message
                     if (medicaments.isEmpty()) {
                         JOptionPane.showMessageDialog(JIFMedicamentParFamille.this, "Aucun médicament trouvé pour cette famille.", "Aucun résultat", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
 
-                    // Préparer les données pour le tableau
-                    Object[][] tableData = new Object[medicaments.size()][8]; // 8 colonnes
+                    // Prépare les données pour la table
+                    Object[][] tableData = new Object[medicaments.size()][8];  // 8 colonnes
 
                     for (int i = 0; i < medicaments.size(); i++) {
                         Medicament medicament = medicaments.get(i);
@@ -118,7 +123,7 @@ public class JIFMedicamentParFamille extends JInternalFrame {
                         tableData[i][7] = medicament.getMedPrixEchantillon();   // Prix de l'échantillon
                     }
 
-                    // Mettre à jour le tableau avec les nouvelles données
+                    // Met à jour le modèle de la table avec les nouvelles données
                     table.setModel(new javax.swing.table.DefaultTableModel(tableData, columnNames));
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -128,19 +133,13 @@ public class JIFMedicamentParFamille extends JInternalFrame {
         });
     }
 
-    // Méthode pour fermer la connexion à la base de données proprement
-    private void fermerConnexion() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();  // Fermeture explicite de la connexion
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Méthode principale pour afficher l'interface graphique de cette fenêtre.
+     * 
+     * @param args Arguments de ligne de commande (non utilisés ici).
+     */
     public static void main(String[] args) {
-        // Affiche l'interface graphique
+        // Affiche l'interface graphique dans le thread de l'EDT
         SwingUtilities.invokeLater(() -> {
             JIFMedicamentParFamille frame = new JIFMedicamentParFamille();
             frame.setVisible(true);

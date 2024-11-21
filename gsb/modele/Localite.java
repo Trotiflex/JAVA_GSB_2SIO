@@ -7,10 +7,8 @@
 package gsb.modele;
 
 /**
- * @author Isabelle
- * 17 nov. 2021
- * TODO Pour changer le modeele de ce commentaire de type genere, allez :
- * Fenetre - Preferences - Java - Style de code - Modeles de code
+ * @author Trotiflex
+ * 17 nov. 2024
  */
 public class Localite {
 	protected String codePostal;

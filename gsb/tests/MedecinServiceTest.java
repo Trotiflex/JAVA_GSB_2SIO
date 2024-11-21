@@ -6,12 +6,17 @@ import gsb.service.MedecinService;
 
 /**
  * Test de la classe MedecinService.
+ * Cette classe permet de tester la méthode rechercherMedecin de la classe MedecinService.
+ * Elle récupère un médecin par son code et affiche ses informations.
  */
 public class MedecinServiceTest {
 
     /**
-     * Méthode principale pour tester la recherche d'un médecin.
-     * @param args
+     * Méthode principale pour tester la recherche d'un médecin par son code.
+     * Cette méthode recherche un médecin avec un code spécifique et affiche ses informations 
+     * telles que le nom, le prénom, l'adresse, la localité, et d'autres détails.
+     * 
+     * @param args Les arguments de la ligne de commande, non utilisés dans ce test.
      */
     public static void main(String[] args) {
         // Recherche du médecin par son code
@@ -32,7 +37,6 @@ public class MedecinServiceTest {
             } else {
                 System.out.println("Localité non renseignée.");
             }
-
 
             // Affichage des autres informations du médecin
             System.out.println("Téléphone : " + unMedecin.getTelephone());

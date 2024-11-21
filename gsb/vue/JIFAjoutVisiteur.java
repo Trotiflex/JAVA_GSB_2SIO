@@ -2,11 +2,23 @@ package gsb.vue;
 
 import gsb.modele.Visiteur;
 import gsb.modele.dao.VisiteurDao;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;
 
+/**
+ * Fenêtre interne permettant d'ajouter un visiteur dans le système.
+ * L'utilisateur peut saisir les informations d'un visiteur, telles que son matricule, son nom,
+ * son prénom, son adresse, ses informations de connexion (login et mot de passe), ainsi que ses détails de localisation 
+ * et d'unité.
+ * Un bouton permet d'ajouter le visiteur et de valider la saisie.
+ * 
+ * @author Trotiflex
+ * @version 1.0
+ * @since 2024-11-21
+ */
 public class JIFAjoutVisiteur extends JInternalFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -14,6 +26,11 @@ public class JIFAjoutVisiteur extends JInternalFrame implements ActionListener {
     private JTextField txtCodePostal, txtVille, txtDateEntree, txtCodeUnit, txtNomUnit;
     private JButton btnAjouter, btnAnnuler;
 
+    /**
+     * Constructeur de la fenêtre permettant d'ajouter un visiteur.
+     * Initialise la fenêtre avec les champs de saisie pour les informations du visiteur,
+     * ainsi que les boutons pour ajouter ou annuler l'opération.
+     */
     public JIFAjoutVisiteur() {
         super("Ajout Visiteur", true, true, true, true);
         setSize(400, 350);
@@ -108,8 +125,13 @@ public class JIFAjoutVisiteur extends JInternalFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * Méthode exécutée lorsqu'un événement se produit, par exemple, lorsqu'un bouton est cliqué.
+     * Elle gère l'ajout du visiteur dans la base de données ou l'annulation de l'ajout.
+     * 
+     * @param e L'événement généré par le clic sur un bouton.
+     */
     @Override
- 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAjouter) {
             // Récupérer les valeurs saisies par l'utilisateur
@@ -166,7 +188,4 @@ public class JIFAjoutVisiteur extends JInternalFrame implements ActionListener {
             setVisible(false);
         }
     }
-
-        
-    }
-
+}
