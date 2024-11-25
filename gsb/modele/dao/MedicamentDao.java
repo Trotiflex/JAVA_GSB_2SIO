@@ -122,4 +122,35 @@ public class MedicamentDao {
         }
         return medicaments;  // Retourne la liste des médicaments de la famille donnée
     }
+    public static ArrayList<Object[]> getMedicamentsByVisite(String reference) {
+        ArrayList<Object[]> medicaments = new ArrayList<>();
+        String query = "SELECT MED_OFFERT_1, QUANTITE_MED_1, MED_OFFERT_2, QUANTITE_MED_2 " +
+                       "FROM VISITE WHERE REFERENCE = ?";
+
+        try (Connection connection = ConnexionMySql.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, reference);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Récupérer le premier médicament et sa quantité
+                    String medicament1 = resultSet.getString("MED_OFFERT_1");
+                    int quantite1 = resultSet.getInt("QUANTITE_MED_1");
+                    if (medicament1 != null && !medicament1.isEmpty()) {
+                        medicaments.add(new Object[] { medicament1, quantite1 });
+                    }
+
+                    // Récupérer le second médicament et sa quantité
+                    String medicament2 = resultSet.getString("MED_OFFERT_2");
+                    int quantite2 = resultSet.getInt("QUANTITE_MED_2");
+                    if (medicament2 != null && !medicament2.isEmpty()) {
+                        medicaments.add(new Object[] { medicament2, quantite2 });
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return medicaments;
+    }
 }

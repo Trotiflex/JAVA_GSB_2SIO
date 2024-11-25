@@ -5,50 +5,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Classe représentant la fenêtre principale de l'application GSB, avec un menu permettant d'accéder à différentes fonctionnalités.
- * La fenêtre utilise des menus pour naviguer entre plusieurs options comme la consultation des médecins, la gestion des visiteurs,
- * des médicaments, et des visites.
- * 
- * @author Trotiflex
- * @version 1.0
- * @since 18 novembre 2024
- */
 public class MenuPrincipal extends JFrame implements ActionListener {
 
-    /**
-     * Identifiant de version pour la sérialisation.
-     */
     private static final long serialVersionUID = 2591453837113855452L;
 
-    protected JDesktopPane desktopPane; // Panneau pour les fenêtres internes
-    protected JMenuBar mbar;            // Barre de menu
-    protected JMenu mMedecins;         // Menu des médecins
-    protected JMenu mMedicaments;      // Menu des médicaments
-    protected JMenu mVisiteur;         // Menu des visiteurs
-    protected JMenu mVisites;          // Menu des visites
+    protected JDesktopPane desktopPane;
+    protected JMenuBar mbar;
+    protected JMenu mMedecins;
+    protected JMenu mMedicaments;
+    protected JMenu mVisiteur;
+    protected JMenu mVisites;
 
-    /**
-     * Constructeur de la fenêtre principale de l'application.
-     * Il configure l'interface utilisateur en ajoutant un `JDesktopPane` pour les fenêtres internes
-     * et en créant les menus pour accéder aux différentes fonctionnalités de l'application.
-     */
     public MenuPrincipal() {
-        // Configuration de la fenêtre principale
         setTitle("GSB");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centrer la fenêtre
+        setLocationRelativeTo(null);
 
-        // Création du JDesktopPane pour les fenêtres internes
         desktopPane = new JDesktopPane();
         desktopPane.setBackground(Color.GRAY);
         add(desktopPane, BorderLayout.CENTER);
 
-        // Configuration de la barre de menu
         mbar = new JMenuBar();
 
-        // Menu "Médecins"
+        // Menu Médecins
         mMedecins = new JMenu("Médecins");
         JMenuItem mC1 = new JMenuItem("Consultation Médecin");
         mC1.addActionListener(this);
@@ -59,7 +39,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         mMedecins.add(mC1);
         mMedecins.add(mC2);
 
-        // Menu "Visiteurs"
+        // Menu Visiteurs
         mVisiteur = new JMenu("Visiteurs");
         JMenuItem mC4 = new JMenuItem("Liste Visiteur");
         mC4.addActionListener(this);
@@ -69,7 +49,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         mC5.setActionCommand("Ajout Visiteur");
         JMenuItem mC6 = new JMenuItem("Stock Visiteur");
         mC6.addActionListener(this);
-        mC6.setActionCommand("Afficher Stock Visiteur");
+        mC6.setActionCommand("Stock Visiteur");
         JMenuItem mC7 = new JMenuItem("Ajout Echantillon");
         mC7.addActionListener(this);
         mC7.setActionCommand("Ajout Echantillon");
@@ -78,49 +58,44 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         mVisiteur.add(mC6);
         mVisiteur.add(mC7);
 
-        // Menu "Médicaments"
+        // Menu Médicaments
         mMedicaments = new JMenu("Médicaments");
         JMenuItem mE1 = new JMenuItem("Liste Médicaments");
         mE1.addActionListener(this);
         mE1.setActionCommand("Liste Médicaments");
-        JMenuItem mE3 = new JMenuItem("Médicaments par famille");
+        JMenuItem mE2 = new JMenuItem("Ajout Médicament");
+        mE2.addActionListener(this);
+        mE2.setActionCommand("Ajout Médicament");
+        JMenuItem mE3 = new JMenuItem("Médicament par famille");
         mE3.addActionListener(this);
         mE3.setActionCommand("Médicament par famille");
         mMedicaments.add(mE1);
+        mMedicaments.add(mE2);
         mMedicaments.add(mE3);
 
-        // Menu "Visites"
+        // Menu Visites
         mVisites = new JMenu("Visites");
-        JMenuItem mA1 = new JMenuItem("Consultation Visite");
+        JMenuItem mA1 = new JMenuItem("Liste des Visites");
         mA1.addActionListener(this);
-        mA1.setActionCommand("Consultation Visite");
+        mA1.setActionCommand("Liste Visites");
         JMenuItem mA2 = new JMenuItem("Ajout Visite");
         mA2.addActionListener(this);
         mA2.setActionCommand("Ajout Visite");
         mVisites.add(mA1);
         mVisites.add(mA2);
+        
 
-        // Ajout des menus à la barre de menu
         mbar.add(mMedecins);
         mbar.add(mVisiteur);
         mbar.add(mMedicaments);
         mbar.add(mVisites);
         setJMenuBar(mbar);
 
-        // Rendre la fenêtre visible
         setVisible(true);
     }
 
-    /**
-     * Méthode de gestion des événements d'action.
-     * Cette méthode est appelée lorsque l'utilisateur sélectionne un élément du menu.
-     * Elle ouvre la fenêtre correspondante en fonction de l'option choisie.
-     * 
-     * @param evt L'événement d'action, représentant l'élément du menu sélectionné.
-     */
     @Override
     public void actionPerformed(ActionEvent evt) {
-        // Vérifie si l'élément cliqué est un JMenuItem
         if (evt.getSource() instanceof JMenuItem) {
             String choixOption = evt.getActionCommand();
 
@@ -137,43 +112,39 @@ public class MenuPrincipal extends JFrame implements ActionListener {
                 case "Ajout Visiteur":
                     ouvrirFenetre(new JIFAjoutVisiteur());
                     break;
-                case "Afficher Stock Visiteur":
-                    ouvrirFenetre(new JIFStocker(this));
+                case "Stock Visiteur":
+                    ouvrirFenetre(new JIFStocker(this)); // Nouvelle fenêtre pour le stock des visiteurs
                     break;
-                case "Médicament par famille":
-                    ouvrirFenetre(new JIFMedicamentParFamille());
+                case "Ajout Echantillon":
+                    ouvrirFenetre(new JIFAjoutEchantillon()); // Nouvelle fenêtre pour l'ajout d'échantillons
                     break;
                 case "Liste Médicaments":
                     ouvrirFenetre(new JIFListeMedicament());
                     break;
-                case "Ajout Echantillon":
-                    ouvrirFenetre(new JIFAjoutEchantillon());
+                case "Ajout Médicament":
+                    ouvrirFenetre(new JIFAjoutMedicament()); // Nouvelle fenêtre pour l'ajout de médicaments
                     break;
-                case "Consultation Visite":
-                    JOptionPane.showMessageDialog(this, "Consultation des visites");
+                case "Médicament par famille":
+                    ouvrirFenetre(new JIFMedicamentParFamille());
+                    break;
+                case "Liste Visites":
+                    ouvrirFenetre(new JIFListeVisites(this));
                     break;
                 case "Ajout Visite":
-                    JOptionPane.showMessageDialog(this, "Ajout d'une visite");
+                    ouvrirFenetre(new JIFAjoutVisite());
                     break;
+               
                 default:
                     JOptionPane.showMessageDialog(this, "Option non reconnue : " + choixOption);
             }
         }
     }
 
-    /**
-     * Méthode pour ouvrir une fenêtre interne dans le `JDesktopPane`.
-     * Si une fenêtre du même type est déjà ouverte, elle est sélectionnée.
-     * Sinon, une nouvelle fenêtre est ajoutée au panneau et affichée.
-     * 
-     * @param uneFenetre La fenêtre interne à ouvrir.
-     */
     public void ouvrirFenetre(JInternalFrame uneFenetre) {
-        // Vérifie si une fenêtre du même type est déjà ouverte
         for (JInternalFrame frame : desktopPane.getAllFrames()) {
             if (frame.getClass().equals(uneFenetre.getClass())) {
                 try {
-                    frame.setSelected(true); // Sélectionne la fenêtre déjà ouverte
+                    frame.setSelected(true);
                 } catch (java.beans.PropertyVetoException ex) {
                     ex.printStackTrace();
                 }
@@ -181,28 +152,21 @@ public class MenuPrincipal extends JFrame implements ActionListener {
             }
         }
 
-        // Si aucune fenêtre du même type n'est ouverte, alors l'ajouter
         desktopPane.add(uneFenetre);
         uneFenetre.setVisible(true);
         uneFenetre.setResizable(true);
         uneFenetre.setMaximizable(true);
         uneFenetre.setClosable(true);
-        uneFenetre.pack(); // Ajuste la taille de la fenêtre interne à son contenu
+        uneFenetre.pack();
         uneFenetre.setLocation((desktopPane.getWidth() - uneFenetre.getWidth()) / 3,
                                (desktopPane.getHeight() - uneFenetre.getHeight()) / 3);
         try {
-            uneFenetre.setSelected(true); // Sélectionne la nouvelle fenêtre
+            uneFenetre.setSelected(true);
         } catch (java.beans.PropertyVetoException ex) {
             ex.printStackTrace();
         }
     }
 
-    /**
-     * Méthode principale pour tester l'affichage de la fenêtre principale.
-     * Elle lance l'application en créant une instance de `MenuPrincipal`.
-     * 
-     * @param args Arguments de ligne de commande (non utilisés ici).
-     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MenuPrincipal());
     }
